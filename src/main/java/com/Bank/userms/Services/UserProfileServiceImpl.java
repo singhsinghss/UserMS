@@ -60,4 +60,14 @@ public class UserProfileServiceImpl implements UserProfileService {
             throw new RuntimeException("User not found with id " + id);
         }
     }
+
+    @Override
+    public boolean deleteUserById(Long userId) {
+        Optional<UserProfile> account = userProfileRepository.findById(userId);
+        if (account.isEmpty()) {
+            throw new RuntimeException("Account not found for accountId: " + userId);
+        }
+        userProfileRepository.deleteById(userId);
+        return true;
+    }
 }

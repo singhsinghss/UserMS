@@ -25,10 +25,10 @@ public class UserProfileController {
     {
         return new ResponseEntity<>(userProfileServiceImpl.createUserProfile(userProfile),HttpStatus.CREATED);
     }
-    @GetMapping("/{id}")
-    private ResponseEntity<UserProfile> getUserProfileById(@PathVariable Long id)
+    @GetMapping("/{userId}")
+    private ResponseEntity<UserProfile> getUserProfileById(@PathVariable Long userId)
     {
-        return new ResponseEntity<>(userProfileServiceImpl.getUserById(id),
+        return new ResponseEntity<>(userProfileServiceImpl.getUserById(userId),
                 HttpStatus.OK);
     }
 
@@ -37,15 +37,22 @@ public class UserProfileController {
     {
         return  new ResponseEntity<>(userProfileServiceImpl.getAllUsers(),HttpStatus.OK);
     }
-    @PutMapping("/{id}")
-    private ResponseEntity<UserProfile> updateUserProfile(@RequestBody UserProfile userProfile,@PathVariable Long id)
+    @PutMapping("/{userId}")
+    private ResponseEntity<UserProfile> updateUserProfile(@RequestBody UserProfile userProfile,@PathVariable Long userId)
     {
             try {
-            UserProfile updatedUser = userProfileServiceImpl.updateUserProfile(userProfile,id);
+            UserProfile updatedUser = userProfileServiceImpl.updateUserProfile(userProfile,userId);
             return ResponseEntity.ok(updatedUser); // Return the updated user
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build(); // User not found, return 404
         }
+    }
+    @DeleteMapping("/{userId}")
+    private ResponseEntity<String> deleteUser(@PathVariable Long userId)
+    {
+        boolean isDeleted = userProfileServiceImpl.deleteUserById(userId);
+        return isDeleted ? ResponseEntity.ok("user profile deleted successfully for user id: "+ userId) :
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("user profile not found for id: "+userId);
     }
     @ExceptionHandler
     public ResponseEntity<String> respondWithError(Exception e){

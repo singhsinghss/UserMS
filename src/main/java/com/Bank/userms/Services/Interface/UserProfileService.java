@@ -10,4 +10,5 @@ public interface UserProfileService {
     UserProfile getUserById(Long id);
     List<UserProfile> getAllUsers();
     UserProfile updateUserProfile(UserProfile userProfile,Long id);
+    boolean deleteUserById(Long UserId);
 }
