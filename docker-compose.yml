@@ -1,0 +1,65 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.1.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: seema@123
+      MYSQL_DATABASE: bankdb
+
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  userms:
+    image: userms-img
+    container_name: userms
+    build:
+      context: .
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/bankdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=seema@123
+    depends_on:
+      - mysql
+    ports:
+      - "8081:8080"
+
+  accountms:
+    image: accountms-img
+    container_name: accountms
+    build:
+      context: D:\Java_Development\accountms
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/bankdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=seema@123
+      - USER_MICROSERVICE_URL=http://userms:8080/api/users
+    depends_on:
+      - mysql
+      - userms
+    ports:
+      - "8082:8082"
+
+  fund-transfer:
+    image: fund-transfer-img
+    container_name: fund-transfer
+    build:
+      context: D:\Java_Development\fund-transfer
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/bankdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=seema@123
+      - ACCOUNT_MICROSERVICE_URL=http://accountms:8082/api/accounts
+      - USER_MICROSERVICE_URL=http://userms:8080/api/users
+    depends_on:
+      - mysql
+      - userms
+      - accountms
+    ports:
+      - "8083:8083"
+
+volumes:
+  mysql-data:
+
