@@ -7,8 +7,8 @@ phases:
       - chmod +x ./gradlew
       - ./gradlew clean build
       - echo Logging in to Amazon ECR...
-      - REPOSITORY_URI=public.ecr.aws/a1r2r3c7
-      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/a1r2r3c7
+      - REPOSITORY_URI=140023374329.dkr.ecr.us-east-1.amazonaws.com/userms/repo
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 140023374329.dkr.ecr.us-east-1.amazonaws.com
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
 
