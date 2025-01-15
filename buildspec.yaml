@@ -4,7 +4,8 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - echo region- $AWS_REGION
+      - AWS_REGION=us-east-1
+      - AWS_ACCOUNT_ID=140023374329
       - echo accountID- $AWS_ACCOUNT_ID
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
       - echo Granting execution permissions to Gradle wrapper...
@@ -17,6 +18,8 @@ phases:
       - echo Building the application with Gradle...
       - ./gradlew build
       - echo Building the Docker image...
+      - IMAGE_REPO_NAME=userms/repo
+      - IMAGE_TAG=latest
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
 
   post_build:
@@ -32,9 +35,3 @@ artifacts:
     - build/libs/*.jar
   discard-paths: yes
 
-environment:
-  variables:
-    IMAGE_REPO_NAME: "userms/repo"  # Replace with your ECR repository name
-    IMAGE_TAG: "latest"                  # Replace with your desired image tag
-    AWS_REGION: "us-east-1"              # Replace with your AWS region
-    AWS_ACCOUNT_ID: "140023374329"       # Replace with your AWS account ID
