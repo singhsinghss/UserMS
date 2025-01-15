@@ -5,6 +5,9 @@ import jakarta.validation.constraints.Null;
 import lombok.Getter;
 import jakarta.validation.constraints.NotNull;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -27,19 +30,21 @@ public class UserProfile {
     private String phone_number;
     private boolean two_factor_enabled;
     private String kyc_status;
+    @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+    @UpdateTimestamp
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
-    @PrePersist
+   // @PrePersist
     public void prePersist() {
         LocalDateTime currentDateTime = LocalDateTime.now();
         this.createdAt = currentDateTime;
         this.updatedAt = currentDateTime;
     }
 
-    @PreUpdate
+   // @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
