@@ -3,6 +3,10 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - echo Logging into Docker Hub...
+      - DOCKER_PASSWORD=seemas123
+      - DOCKER_USERNAME=singhseema
+      - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
       - echo Logging in to Amazon ECR...
       - AWS_REGION=us-east-1
       - AWS_ACCOUNT_ID=140023374329
