@@ -4,6 +4,7 @@ phases:
   pre_build:
     commands:
       - aws --version
+      - chmod +x ./gradlew
       - ./gradlew clean build
       - echo Logging in to Amazon ECR...
       - REPOSITORY_URI=public.ecr.aws/a1r2r3c7/userms/repo
