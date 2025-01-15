@@ -54,6 +54,11 @@ public class UserProfileController {
         return isDeleted ? ResponseEntity.ok("user profile deleted successfully for user id: "+ userId) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("user profile not found for id: "+userId);
     }
+    @GetMapping("/health")
+    public String healthCheck()
+    {
+        return "UP";
+    }
     @ExceptionHandler
     public ResponseEntity<String> respondWithError(Exception e){
         logger.error("Exception Occurred. Details : {}", e.getMessage());
