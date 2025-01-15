@@ -4,6 +4,8 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
+      - echo region- $AWS_REGION
+      - echo accountID- $AWS_ACCOUNT_ID
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
       - echo Granting execution permissions to Gradle wrapper...
       - chmod +x ./gradlew
