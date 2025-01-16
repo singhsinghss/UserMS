@@ -37,6 +37,7 @@ phases:
       - echo Pushing the Docker image to AWS ECR...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
       - echo Build process completed successfully.
+      - echo '[{"name":"userms-repo","imageUri":"140023374329.dkr.ecr.us-east-1.amazonaws.com/userms/repo"}]' > imagedefinitions.json
 
 artifacts:
   files:
